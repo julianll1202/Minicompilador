@@ -8,7 +8,9 @@ import javax.swing.text.*;
 class Editor extends JFrame implements ActionListener {
     // Text component
     JTextArea t;
-
+    JPanel panelNorte;
+    JPanel panelSur;
+    JEditorPane errorPanel;
     // Frame
     JFrame f;
 
@@ -30,7 +32,10 @@ class Editor extends JFrame implements ActionListener {
 
         // Text component
         t = new JTextArea();
-
+        errorPanel = new JEditorPane();
+        errorPanel.setContentType("text/html");
+        panelNorte = new JPanel();
+        panelSur = new JPanel();
         // Create a menubar
         JMenuBar mb = new JMenuBar();
 
@@ -89,9 +94,15 @@ class Editor extends JFrame implements ActionListener {
         mb.add(m3);
         mb.add(mc);
 
+        errorPanel.setText("<b>hola</b>");
         f.setJMenuBar(mb);
-        f.add(t);
-        f.setSize(500, 500);
+//        f.add(t);
+//        f.add(errorPanel);
+        panelNorte.add(t);
+        panelSur.add(errorPanel);
+        f.add(panelNorte, BorderLayout.NORTH);
+        f.add(panelSur, BorderLayout.SOUTH);
+        f.setSize(700, 700);
         f.show();
     }
 
