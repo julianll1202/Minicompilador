@@ -6,3 +6,12 @@
  * **Fecha:** 13 de Noviembre del 2023
 ## Proyecto Final: Minicompilador
 Se usa como base un editor de texto obtenido de la pagina de GeeksforGeeks.
+
+##### Clase 15 de noviembre del 2023
+* Fin de linea: #
+* a: rojo
+* e: verde
+* i: azul
+* o: morado
+* u: rosa
+* Otro: gris

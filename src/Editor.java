@@ -5,10 +5,10 @@ import java.awt.event.*;
 import javax.swing.plaf.metal.*;
 import javax.swing.text.*;
 
-class Editor extends JFrame implements ActionListener {
+class Editor extends JFrame implements ActionListener, KeyListener {
     // Text component
     JLabel errorLabel;
-    JTextArea t;
+    JTextPane t;
     JPanel panelNorte;
     JPanel panelSur;
     JEditorPane errorPanel;
@@ -35,7 +35,12 @@ class Editor extends JFrame implements ActionListener {
 
         // Text component
         errorLabel = new JLabel("Error Log");
-        t = new JTextArea();
+        t = new JTextPane();
+        StyledDocument doc = t.getStyledDocument();
+        Style style = t.addStyle("", null);
+        StyleConstants.setForeground(style, Color.RED);
+        doc.setLogicalStyle(0,style);
+        t.addKeyListener(this);
         errorPanel = new JEditorPane();
         errorPanel.setContentType("text/html");
         panelNorte = new JPanel();
@@ -117,7 +122,7 @@ class Editor extends JFrame implements ActionListener {
 //        f.add(errorLabel, BorderLayout.SOUTH);
         f.add(panelSur, BorderLayout.SOUTH);
         f.setSize(700, 760);
-        f.show();
+        f.setVisible(true);
     }
 
     // If a button is pressed
@@ -222,6 +227,22 @@ class Editor extends JFrame implements ActionListener {
         }
         else if (s.equals("Close")) {
             f.setVisible(false);
+        }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        if(e.getSource() == t){
+            if(t == "a")
         }
     }
 }
