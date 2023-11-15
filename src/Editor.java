@@ -7,10 +7,15 @@ import javax.swing.text.*;
 
 class Editor extends JFrame implements ActionListener {
     // Text component
+    JLabel errorLabel;
     JTextArea t;
-
+    JPanel panelNorte;
+    JPanel panelSur;
+    JEditorPane errorPanel;
     // Frame
     JFrame f;
+    JScrollPane textEditor;
+    JScrollPane errorEditor;
 
     // Constructor
     Editor()
@@ -29,8 +34,20 @@ class Editor extends JFrame implements ActionListener {
         }
 
         // Text component
+        errorLabel = new JLabel("Error Log");
         t = new JTextArea();
-
+        errorPanel = new JEditorPane();
+        errorPanel.setContentType("text/html");
+        panelNorte = new JPanel();
+        panelSur = new JPanel();
+        textEditor = new JScrollPane(t);
+        errorEditor = new JScrollPane(errorPanel);
+        errorPanel.setEditable(false);
+        errorEditor.setPreferredSize(new Dimension(680, 280));
+        textEditor.setPreferredSize(new Dimension(680, 400));
+        errorLabel.setLabelFor(errorEditor);
+//        JPanel panelSur = new JPanel();
+//        panelSur.add(errorLabel, errorEditor);
         // Create a menubar
         JMenuBar mb = new JMenuBar();
 
@@ -89,9 +106,17 @@ class Editor extends JFrame implements ActionListener {
         mb.add(m3);
         mb.add(mc);
 
+        errorPanel.setText("<b style='color:red;'>hola</b>");
         f.setJMenuBar(mb);
-        f.add(t);
-        f.setSize(500, 500);
+//        f.add(t);
+//        f.add(errorPanel);
+        panelNorte.add(textEditor);
+        panelSur.add(errorLabel);
+        panelSur.add(errorEditor);
+        f.add(panelNorte, BorderLayout.NORTH);
+//        f.add(errorLabel, BorderLayout.SOUTH);
+        f.add(panelSur, BorderLayout.SOUTH);
+        f.setSize(700, 760);
         f.show();
     }
 
