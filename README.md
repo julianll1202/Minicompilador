@@ -15,3 +15,14 @@ Se usa como base un editor de texto obtenido de la pagina de GeeksforGeeks.
 * o: morado
 * u: rosa
 * Otro: gris
+
+###### Pseudo codigo
+Se lee la tecla presionada:
+    Si es nuevaLinea:
+        Si es a, cambiar a rojo
+        Si es e, cambiar a verde
+        Si es i, cambiar a azul
+        Si es o, cambiar a morado
+        Si es u, cambiar a rosa
+    Si no:
+        No cambiar color
