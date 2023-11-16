@@ -5,10 +5,10 @@ import java.awt.event.*;
 import javax.swing.plaf.metal.*;
 import javax.swing.text.*;
 
-class Editor extends JFrame implements ActionListener {
+class Editor extends JFrame implements ActionListener, KeyListener {
     // Text component
     JLabel errorLabel;
-    JTextArea t;
+    JTextPane t;
     JPanel panelNorte;
     JPanel panelSur;
     JEditorPane errorPanel;
@@ -16,6 +16,7 @@ class Editor extends JFrame implements ActionListener {
     JFrame f;
     JScrollPane textEditor;
     JScrollPane errorEditor;
+    private boolean newLine = false;
 
     // Constructor
     Editor()
@@ -35,7 +36,48 @@ class Editor extends JFrame implements ActionListener {
 
         // Text component
         errorLabel = new JLabel("Error Log");
-        t = new JTextArea();
+        t = new JTextPane();
+        ((AbstractDocument) t.getDocument()).setDocumentFilter(new DocumentFilter() {
+            @Override
+            public void replace( FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws  BadLocationException {
+                SimpleAttributeSet newAttrs = new SimpleAttributeSet();
+                if (!newLine) {
+                    if (text.startsWith("a", text.length() - 1)) {
+                        StyleConstants.setForeground(newAttrs, Color.RED);
+                        newLine = true;
+                        attrs = newAttrs;
+                    } else if (text.startsWith("e", text.length() - 1)) {
+                        newLine = true;
+                        StyleConstants.setForeground(newAttrs, Color.GREEN);
+                        attrs = newAttrs;
+                    } else if (text.startsWith("i", text.length() - 1)) {
+                        newLine = true;
+                        StyleConstants.setForeground(newAttrs, Color.BLUE);
+                        attrs = newAttrs;
+                    } else if (text.startsWith("o", text.length() - 1)) {
+                        newLine = true;
+                        StyleConstants.setForeground(newAttrs, Color.MAGENTA);
+                        attrs = newAttrs;
+                    } else if (text.startsWith("u", text.length() - 1)) {
+                        newLine = true;
+                        StyleConstants.setForeground(newAttrs, Color.CYAN);
+                        attrs = newAttrs;
+                    }
+                } else {
+                    if (text.startsWith("#", text.length() - 1)) {
+                        StyleConstants.setForeground(newAttrs, Color.DARK_GRAY);
+                        newLine = false;
+                        attrs = newAttrs;
+                    }
+                }
+                super.replace(fb, offset, length, text, attrs);
+            }
+        });
+//        StyledDocument doc = t.getStyledDocument();
+//        Style style = t.addStyle("", null);
+//        StyleConstants.setForeground(style, Color.RED);
+//        doc.setLogicalStyle(0,style);
+        t.addKeyListener(this);
         errorPanel = new JEditorPane();
         errorPanel.setContentType("text/html");
         panelNorte = new JPanel();
@@ -117,7 +159,7 @@ class Editor extends JFrame implements ActionListener {
 //        f.add(errorLabel, BorderLayout.SOUTH);
         f.add(panelSur, BorderLayout.SOUTH);
         f.setSize(700, 760);
-        f.show();
+        f.setVisible(true);
     }
 
     // If a button is pressed
@@ -223,5 +265,53 @@ class Editor extends JFrame implements ActionListener {
         else if (s.equals("Close")) {
             f.setVisible(false);
         }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        System.out.println(e.getKeyChar());
+//
+//        if(!newLine){
+//            StyledDocument doc = t.getStyledDocument();
+//            Style style = t.addStyle("", null);
+//            switch (e.getKeyChar()) {
+//                case 'a':
+//                    StyleConstants.setForeground(style, Color.RED);
+//                    break;
+//                case 'e':
+//                    StyleConstants.setForeground(style, Color.GREEN);
+//                    break;
+//                case 'i':
+//                    StyleConstants.setForeground(style, Color.BLUE);
+//                    break;
+//                case 'o':
+//                    StyleConstants.setForeground(style, Color.MAGENTA);
+//                    break;
+//                case 'u':
+//                    StyleConstants.setForeground(style, Color.CYAN);
+//                    break;
+//                case '#':
+//                    newLine = false;
+//                    return;
+//                default:
+//                    StyleConstants.setForeground(style, Color.DARK_GRAY);
+//                    break;
+//            }
+//            newLine = true;
+//            doc.setLogicalStyle(2,style);
+//        } else {
+//            if(e.getKeyChar() == '#')
+//                newLine = false;
+//        }
+
+    }
+
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }
