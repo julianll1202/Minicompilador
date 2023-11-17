@@ -63,6 +63,7 @@ class Editor extends JFrame implements ActionListener, KeyListener {
                         StyleConstants.setForeground(newAttrs, Color.CYAN);
                         attrs = newAttrs;
                     }
+
                 } else {
                     if (text.startsWith("#", text.length() - 1)) {
                         StyleConstants.setForeground(newAttrs, Color.DARK_GRAY);
@@ -264,46 +265,33 @@ class Editor extends JFrame implements ActionListener, KeyListener {
         }
         else if (s.equals("Close")) {
             f.setVisible(false);
+        } else if (s.equals("Compile")) {
+            String text = t.getText();
+            text = text.replaceAll("(?m)^[ \t]*\r?\n", "");
+            text = text.trim();
+            String[] letras = text.split("#");
+            System.out.println(text);
+            letras[0] = letras[0].replaceAll("(?m)^[ \t]*\r?\n", "");
+//            System.out.println(letras[0]);
+            System.out.println(letras[1]);
+//            System.out.println(letras[2]);
+            if(letras[0].startsWith("Inicio")){
+                letras[1] = letras[1].trim();
+                if(letras[1].startsWith("Ensaje",1)) {
+                    if (letras[2].startsWith("Out")) {
+                        String mensaje = letras[1].substring(7, letras.length - 1);
+                        System.out.println(mensaje);
+                        errorPanel.setText("dfsgfdgsfgfd");
+                    }
+                }
+            }
         }
+//
+
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-        System.out.println(e.getKeyChar());
-//
-//        if(!newLine){
-//            StyledDocument doc = t.getStyledDocument();
-//            Style style = t.addStyle("", null);
-//            switch (e.getKeyChar()) {
-//                case 'a':
-//                    StyleConstants.setForeground(style, Color.RED);
-//                    break;
-//                case 'e':
-//                    StyleConstants.setForeground(style, Color.GREEN);
-//                    break;
-//                case 'i':
-//                    StyleConstants.setForeground(style, Color.BLUE);
-//                    break;
-//                case 'o':
-//                    StyleConstants.setForeground(style, Color.MAGENTA);
-//                    break;
-//                case 'u':
-//                    StyleConstants.setForeground(style, Color.CYAN);
-//                    break;
-//                case '#':
-//                    newLine = false;
-//                    return;
-//                default:
-//                    StyleConstants.setForeground(style, Color.DARK_GRAY);
-//                    break;
-//            }
-//            newLine = true;
-//            doc.setLogicalStyle(2,style);
-//        } else {
-//            if(e.getKeyChar() == '#')
-//                newLine = false;
-//        }
-
     }
 
     public void keyPressed(KeyEvent e) {
