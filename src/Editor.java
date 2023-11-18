@@ -274,7 +274,7 @@ class Editor extends JFrame implements ActionListener, KeyListener {
                 letras[1] = letras[1].replaceAll("(?m)^[ \t]*\r?\n", "");
                 if(letras[1].startsWith("Ensaje(") && letras[1].endsWith(")")) {
                     letras[2] = letras[2].replaceAll("(?m)^[ \t]*\r?\n", "");
-                    if (letras[2].equals("Out")) {
+                    if (text.endsWith("Out#")) {
                         mensaje = letras[1].substring(7, letras[1].length()-1);
                     }
                 }
