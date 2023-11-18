@@ -34,3 +34,14 @@ Estructura:
 * Salida#
 
 Si la estructura esta bien: imprimir hola en el error log
+
+##### Pseudo codigo
+Obtener el texto
+Limpiarlo (quitar lineas en blanco, espacios en blanco, etc.)
+Partirlo cada #
+Si la primera parte es igual a "Inicio"
+Entonces:
+* Si la segunda parte empieza con "Ensaje(" y termina con ")"
+* Entonces si la tercera parte es igual a "Out"
+  * Guardar el string entre ambos parentesis en la segunda parte
+  * Poner el texto en el errorPanel

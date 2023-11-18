@@ -42,23 +42,24 @@ class Editor extends JFrame implements ActionListener, KeyListener {
             public void replace( FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws  BadLocationException {
                 SimpleAttributeSet newAttrs = new SimpleAttributeSet();
                 if (!newLine) {
-                    if (text.startsWith("a", text.length() - 1)) {
+                    String letra = text.substring(text.length()-1);
+                    if (letra.equalsIgnoreCase("a")) {
                         StyleConstants.setForeground(newAttrs, Color.RED);
                         newLine = true;
                         attrs = newAttrs;
-                    } else if (text.startsWith("e", text.length() - 1)) {
+                    } else if (letra.equalsIgnoreCase("e")) {
                         newLine = true;
                         StyleConstants.setForeground(newAttrs, Color.GREEN);
                         attrs = newAttrs;
-                    } else if (text.startsWith("i", text.length() - 1)) {
+                    } else if (letra.equalsIgnoreCase("i")) {
                         newLine = true;
                         StyleConstants.setForeground(newAttrs, Color.BLUE);
                         attrs = newAttrs;
-                    } else if (text.startsWith("o", text.length() - 1)) {
+                    } else if (letra.equalsIgnoreCase("o")) {
                         newLine = true;
                         StyleConstants.setForeground(newAttrs, Color.MAGENTA);
                         attrs = newAttrs;
-                    } else if (text.startsWith("u", text.length() - 1)) {
+                    } else if (letra.equalsIgnoreCase("u")) {
                         newLine = true;
                         StyleConstants.setForeground(newAttrs, Color.CYAN);
                         attrs = newAttrs;
@@ -74,10 +75,7 @@ class Editor extends JFrame implements ActionListener, KeyListener {
                 super.replace(fb, offset, length, text, attrs);
             }
         });
-//        StyledDocument doc = t.getStyledDocument();
-//        Style style = t.addStyle("", null);
-//        StyleConstants.setForeground(style, Color.RED);
-//        doc.setLogicalStyle(0,style);
+
         t.addKeyListener(this);
         errorPanel = new JEditorPane();
         errorPanel.setContentType("text/html");
@@ -269,22 +267,19 @@ class Editor extends JFrame implements ActionListener, KeyListener {
             String text = t.getText();
             text = text.replaceAll("(?m)^[ \t]*\r?\n", "");
             text = text.trim();
+            String mensaje = "Error";
             String[] letras = text.split("#");
-            System.out.println(text);
-            letras[0] = letras[0].replaceAll("(?m)^[ \t]*\r?\n", "");
-//            System.out.println(letras[0]);
-            System.out.println(letras[1]);
-//            System.out.println(letras[2]);
-            if(letras[0].startsWith("Inicio")){
+            if(letras[0].equals("Inicio")){
                 letras[1] = letras[1].trim();
-                if(letras[1].startsWith("Ensaje",1)) {
-                    if (letras[2].startsWith("Out")) {
-                        String mensaje = letras[1].substring(7, letras.length - 1);
-                        System.out.println(mensaje);
-                        errorPanel.setText("dfsgfdgsfgfd");
+                letras[1] = letras[1].replaceAll("(?m)^[ \t]*\r?\n", "");
+                if(letras[1].startsWith("Ensaje(") && letras[1].endsWith(")")) {
+                    letras[2] = letras[2].replaceAll("(?m)^[ \t]*\r?\n", "");
+                    if (letras[2].equals("Out")) {
+                        mensaje = letras[1].substring(7, letras[1].length()-1);
                     }
                 }
             }
+            errorPanel.setText("<span color='red'>"+mensaje+"</span>");
         }
 //
 
