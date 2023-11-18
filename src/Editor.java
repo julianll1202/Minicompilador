@@ -267,7 +267,7 @@ class Editor extends JFrame implements ActionListener, KeyListener {
             String text = t.getText();
             text = text.replaceAll("(?m)^[ \t]*\r?\n", "");
             text = text.trim();
-            String mensaje = "Error";
+            String mensaje = "Error de sintaxis";
             String[] letras = text.split("#");
             if(letras[0].equals("Inicio")){
                 letras[1] = letras[1].trim();
