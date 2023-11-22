@@ -269,17 +269,44 @@ class Editor extends JFrame implements ActionListener, KeyListener {
             text = text.trim();
             String mensaje = "Error de sintaxis";
             String[] letras = text.split("#");
-            if(letras[0].equals("Inicio")){
-                letras[1] = letras[1].trim();
-                letras[1] = letras[1].replaceAll("(?m)^[ \t]*\r?\n", "");
-                if(letras[1].startsWith("Ensaje(") && letras[1].endsWith(")")) {
-                    letras[2] = letras[2].replaceAll("(?m)^[ \t]*\r?\n", "");
-                    if (text.endsWith("Out#")) {
-                        mensaje = letras[1].substring(7, letras[1].length()-1);
+            if(letras.length == 3) {
+                if(letras[0].equals("Inicio")) {
+                    letras[1] = letras[1].trim();
+                    letras[1] = letras[1].replaceAll("(?m)^[ \t]*\r?\n", "");
+                    if (letras[1].startsWith("Ensaje(") && letras[1].endsWith(")")) {
+                        letras[2] = letras[2].replaceAll("(?m)^[ \t]*\r?\n", "");
+                        if (text.endsWith("Out#")) {
+                            mensaje = letras[1].substring(7, letras[1].length() - 1);
+                            errorPanel.setText("<span color='red'>"+mensaje+"</span>");
+                        }
+                    }
+                }
+
+            } else if (letras.length == 4) {
+                int repeticion = 0;
+                if(letras[0].equals("Inicio")) {
+                    letras[1] = letras[1].trim();
+                    letras[1] = letras[1].replaceAll("(?m)^[ \t]*\r?\n", "");
+                    if(letras[1].startsWith("Again(") && letras[1].endsWith(")")){
+                        letras[2] = letras[2].replaceAll("(?m)^[ \t]*\r?\n", "");
+                        repeticion = Integer.parseInt(letras[1].substring(6,letras[1].length()-1));
+                        System.out.println(repeticion);
+                        if (letras[2].startsWith("Ensaje(") && letras[2].endsWith(")")) {
+                            if (text.endsWith("Out#")) {
+                                mensaje = letras[2].substring(7, letras[2].length() - 1);
+                                StringBuilder mssg = new StringBuilder();
+                                String parrafo = "<span color='red'>"+mensaje+"</span><br>";
+                                for(int i = 0; i < repeticion; i++){
+                                    mssg.append(parrafo);
+
+                                }
+                                errorPanel.setText(mssg.toString());
+                            }
+                        }
                     }
                 }
             }
-            errorPanel.setText("<span color='red'>"+mensaje+"</span>");
+
         }
 //
 
