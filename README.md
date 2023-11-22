@@ -18,11 +18,30 @@ Se usa como base un editor de texto obtenido de la pagina de GeeksforGeeks.
 
 ###### Pseudo codigo
 Se lee la tecla presionada:
-    Si es nuevaLinea:
-        Si es a, cambiar a rojo
-        Si es e, cambiar a verde
-        Si es i, cambiar a azul
-        Si es o, cambiar a morado
-        Si es u, cambiar a rosa
-    Si no:
-        No cambiar color
+    Si es nuevaLinea: 
+* Si es a, cambiar a rojo 
+* Si es e, cambiar a verde 
+* Si es i, cambiar a azul 
+* Si es o, cambiar a morado 
+* Si es u, cambiar a rosa
+Si no:
+    No cambiar color
+#### Clase 17 de noviembre de 2023
+Validar el cuerpo del programa
+Estructura:
+* Inicio#
+* Ensaje(aaaaaa)#
+* Salida#
+
+Si la estructura esta bien: imprimir hola en el error log
+
+##### Pseudo codigo
+Obtener el texto
+Limpiarlo (quitar lineas en blanco, espacios en blanco, etc.)
+Partirlo cada #
+Si la primera parte es igual a "Inicio"
+Entonces:
+* Si la segunda parte empieza con "Ensaje(" y termina con ")"
+* Entonces si la tercera parte es igual a "Out"
+  * Guardar el string entre ambos parentesis en la segunda parte
+  * Poner el texto en el errorPanel

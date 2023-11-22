@@ -42,27 +42,29 @@ class Editor extends JFrame implements ActionListener, KeyListener {
             public void replace( FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws  BadLocationException {
                 SimpleAttributeSet newAttrs = new SimpleAttributeSet();
                 if (!newLine) {
-                    if (text.startsWith("a", text.length() - 1)) {
+                    String letra = text.substring(text.length()-1);
+                    if (letra.equalsIgnoreCase("a")) {
                         StyleConstants.setForeground(newAttrs, Color.RED);
                         newLine = true;
                         attrs = newAttrs;
-                    } else if (text.startsWith("e", text.length() - 1)) {
+                    } else if (letra.equalsIgnoreCase("e")) {
                         newLine = true;
                         StyleConstants.setForeground(newAttrs, Color.GREEN);
                         attrs = newAttrs;
-                    } else if (text.startsWith("i", text.length() - 1)) {
+                    } else if (letra.equalsIgnoreCase("i")) {
                         newLine = true;
                         StyleConstants.setForeground(newAttrs, Color.BLUE);
                         attrs = newAttrs;
-                    } else if (text.startsWith("o", text.length() - 1)) {
+                    } else if (letra.equalsIgnoreCase("o")) {
                         newLine = true;
                         StyleConstants.setForeground(newAttrs, Color.MAGENTA);
                         attrs = newAttrs;
-                    } else if (text.startsWith("u", text.length() - 1)) {
+                    } else if (letra.equalsIgnoreCase("u")) {
                         newLine = true;
                         StyleConstants.setForeground(newAttrs, Color.CYAN);
                         attrs = newAttrs;
                     }
+
                 } else {
                     if (text.startsWith("#", text.length() - 1)) {
                         StyleConstants.setForeground(newAttrs, Color.DARK_GRAY);
@@ -73,10 +75,7 @@ class Editor extends JFrame implements ActionListener, KeyListener {
                 super.replace(fb, offset, length, text, attrs);
             }
         });
-//        StyledDocument doc = t.getStyledDocument();
-//        Style style = t.addStyle("", null);
-//        StyleConstants.setForeground(style, Color.RED);
-//        doc.setLogicalStyle(0,style);
+
         t.addKeyListener(this);
         errorPanel = new JEditorPane();
         errorPanel.setContentType("text/html");
@@ -264,46 +263,57 @@ class Editor extends JFrame implements ActionListener, KeyListener {
         }
         else if (s.equals("Close")) {
             f.setVisible(false);
+        } else if (s.equals("Compile")) {
+            String text = t.getText();
+            text = text.replaceAll("(?m)^[ \t]*\r?\n", "");
+            text = text.trim();
+            String mensaje = "Error de sintaxis";
+            String[] letras = text.split("#");
+            if(letras.length == 3) {
+                if(letras[0].equals("Inicio")) {
+                    letras[1] = letras[1].trim();
+                    letras[1] = letras[1].replaceAll("(?m)^[ \t]*\r?\n", "");
+                    if (letras[1].startsWith("Ensaje(") && letras[1].endsWith(")")) {
+                        letras[2] = letras[2].replaceAll("(?m)^[ \t]*\r?\n", "");
+                        if (text.endsWith("Out#")) {
+                            mensaje = letras[1].substring(7, letras[1].length() - 1);
+                            errorPanel.setText("<span color='red'>"+mensaje+"</span>");
+                        }
+                    }
+                }
+
+            } else if (letras.length == 4) {
+                int repeticion = 0;
+                if(letras[0].equals("Inicio")) {
+                    letras[1] = letras[1].trim();
+                    letras[1] = letras[1].replaceAll("(?m)^[ \t]*\r?\n", "");
+                    if(letras[1].startsWith("Again(") && letras[1].endsWith(")")){
+                        letras[2] = letras[2].replaceAll("(?m)^[ \t]*\r?\n", "");
+                        repeticion = Integer.parseInt(letras[1].substring(6,letras[1].length()-1));
+                        System.out.println(repeticion);
+                        if (letras[2].startsWith("Ensaje(") && letras[2].endsWith(")")) {
+                            if (text.endsWith("Out#")) {
+                                mensaje = letras[2].substring(7, letras[2].length() - 1);
+                                StringBuilder mssg = new StringBuilder();
+                                String parrafo = "<span color='red'>"+mensaje+"</span><br>";
+                                for(int i = 0; i < repeticion; i++){
+                                    mssg.append(parrafo);
+
+                                }
+                                errorPanel.setText(mssg.toString());
+                            }
+                        }
+                    }
+                }
+            }
+
         }
+//
+
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-        System.out.println(e.getKeyChar());
-//
-//        if(!newLine){
-//            StyledDocument doc = t.getStyledDocument();
-//            Style style = t.addStyle("", null);
-//            switch (e.getKeyChar()) {
-//                case 'a':
-//                    StyleConstants.setForeground(style, Color.RED);
-//                    break;
-//                case 'e':
-//                    StyleConstants.setForeground(style, Color.GREEN);
-//                    break;
-//                case 'i':
-//                    StyleConstants.setForeground(style, Color.BLUE);
-//                    break;
-//                case 'o':
-//                    StyleConstants.setForeground(style, Color.MAGENTA);
-//                    break;
-//                case 'u':
-//                    StyleConstants.setForeground(style, Color.CYAN);
-//                    break;
-//                case '#':
-//                    newLine = false;
-//                    return;
-//                default:
-//                    StyleConstants.setForeground(style, Color.DARK_GRAY);
-//                    break;
-//            }
-//            newLine = true;
-//            doc.setLogicalStyle(2,style);
-//        } else {
-//            if(e.getKeyChar() == '#')
-//                newLine = false;
-//        }
-
     }
 
     public void keyPressed(KeyEvent e) {
